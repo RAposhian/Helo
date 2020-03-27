@@ -32,4 +32,5 @@ app.post(`/auth/login`, ctrl.login);
 
 //post endpoints
 
-app.get('/api/posts', ctrl.getPosts);
+app.get('/api/posts/:id', ctrl.getPosts);
+app.get('/api/post/:id', ctrl.getSinglePost);

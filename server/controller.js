@@ -40,29 +40,40 @@ module.exports = {
       req.session.destroy();
       res.sendStatus(200);
    },
-   getPosts: (req, res) => {
-      const {userPosts, searchInput} = req.body;
-      const {id} = req.params;
+   getPosts: async(req, res) => {
+      const {userPosts, searchInput} = req.query;
+      const {id} = req.params
       const db = req.app.get('db');
-
-      if (userPosts === true && searchInput !== '') {
-         let posts = db.post.get_posts(id);
-         let filterPost = posts.filter(e => e.includes(searchInput));
+      if (userPosts === 'true' && searchInput !== '') {
+         let posts =  await db.post.get_posts(id);
+         console.log(posts)
+         let filterPost = posts.filter(e => e[0].title.includes(searchInput));
+         console.log(filterPost)
          return res.status(200).send(filterPost)
       } 
-      if (userPosts === false && searchInput === '') {
-         let allPosts = db.post.get_all_posts();
+      if (userPosts === 'false' && searchInput === '') {
+         let allPosts = await db.post.get_all_posts();
+         console.log()
          let filtered = allPosts.filter(e => (e.author_id !== id)? e : null)
          return res.status(200).send(filtered)
       } 
-      if (userPosts === false && searchInput !== '') {
-         let postAll = db.post.get_all_posts();
-         let postsFiltered = postAll.filter(e => e.includes(searchInput));
+      if (userPosts === 'false' && searchInput !== '') {
+         let postAll = await db.post.get_all_posts();
+         console.log(postAll)
+         let postsFiltered = postAll.filter(e => e[0].title.includes(searchInput));
          res.status(200).send(postsFiltered); 
       }
-      if (userPosts === true && searchInput === '') {
-         let getAllPosts = db.post.get_all_post();
+      if (userPosts === 'true' && searchInput === '') {
+         let getAllPosts = await db.post.get_all_posts();
+         res.status(200).send(getAllPosts);
       }
 
+   },
+   getSinglePost: async(req, res) => {
+      const {id} = req.params;
+      const db = req.app.get('db');
+
+      let post = await db.post.get_single_post(id);
+      res.status(200).send(post);
    }
 }
