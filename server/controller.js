@@ -35,5 +35,34 @@ module.exports = {
 
       req.session.user = user[0]
       res.status(202).send(req.session.user);
+   },
+   logout: (req, res) => {
+      req.session.destroy();
+      res.sendStatus(200);
+   },
+   getPosts: (req, res) => {
+      const {userPosts, searchInput} = req.body;
+      const {id} = req.params;
+      const db = req.app.get('db');
+
+      if (userPosts === true && searchInput !== '') {
+         let posts = db.post.get_posts(id);
+         let filterPost = posts.filter(e => e.includes(searchInput));
+         return res.status(200).send(filterPost)
+      } 
+      if (userPosts === false && searchInput === '') {
+         let allPosts = db.post.get_all_posts();
+         let filtered = allPosts.filter(e => (e.author_id !== id)? e : null)
+         return res.status(200).send(filtered)
+      } 
+      if (userPosts === false && searchInput !== '') {
+         let postAll = db.post.get_all_posts();
+         let postsFiltered = postAll.filter(e => e.includes(searchInput));
+         res.status(200).send(postsFiltered); 
+      }
+      if (userPosts === true && searchInput === '') {
+         let getAllPosts = db.post.get_all_post();
+      }
+
    }
 }

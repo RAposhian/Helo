@@ -29,3 +29,7 @@ massive({
 //auth endpoints
 app.post('/auth/register', ctrl.register);
 app.post(`/auth/login`, ctrl.login);
+
+//post endpoints
+
+app.get('/api/posts', ctrl.getPosts);
