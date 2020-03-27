@@ -14,8 +14,23 @@ class Post extends Component {
      }
   }
 
+  componentDidMount = () => {
+     this.handleGetPost()
+  }
+
   handleGetPost = () => {
-     axios.get(`/api/post/${this.props.match.params.post_id}`)
+     axios.get(`/api/post/${this.props.match.params.postid}`)
+     .then(res => {
+        const {title, img, content, author, authorPicture} = res.data[0]
+        this.setState({
+           title: title,
+           img: img,
+           content: content,
+           author: author,
+           authorPicture: authorPicture
+        })
+     })
+     .catch(err => console.log(err))
   }
   
    render(){
@@ -23,10 +38,10 @@ class Post extends Component {
       const {title, img, content, author, authorPicture} = this.state;
       return (
          <div>
-            <h1>{title}</h1>
+            <h3>{title}</h3>
             <img src={img} alt={title}/>
             <p>{content}</p>
-            <h1>{author}</h1>
+            <h3>{author}</h3>
             <img src={authorPicture} alt={author} />
          </div>
       )

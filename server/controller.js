@@ -45,22 +45,22 @@ module.exports = {
       const {id} = req.params
       const db = req.app.get('db');
       if (userPosts === 'true' && searchInput !== '') {
-         let posts =  await db.post.get_posts(id);
+         let posts =  await db.post.get_posts(+id);
          console.log(posts)
-         let filterPost = posts.filter(e => e[0].title.includes(searchInput));
+         let filterPost = posts.filter((e, i) => e[i].title.includes(searchInput));
          console.log(filterPost)
          return res.status(200).send(filterPost)
       } 
       if (userPosts === 'false' && searchInput === '') {
          let allPosts = await db.post.get_all_posts();
          console.log()
-         let filtered = allPosts.filter(e => (e[0].author_id !== id)? e : null)
+         let filtered = allPosts.filter((e, i) => (e[i].author_id !== id)? e : null)
          return res.status(200).send(filtered)
       } 
       if (userPosts === 'false' && searchInput !== '') {
          let postAll = await db.post.get_all_posts();
          console.log(postAll)
-         let postsFiltered = postAll.filter(e => e[0].title.includes(searchInput));
+         let postsFiltered = postAll.filter((e, i) => e[i].title.includes(searchInput));
          res.status(200).send(postsFiltered); 
       }
       if (userPosts === 'true' && searchInput === '') {
@@ -72,8 +72,9 @@ module.exports = {
    getSinglePost: async(req, res) => {
       const {id} = req.params;
       const db = req.app.get('db');
+      console.log(id)
 
-      let post = await db.post.get_single_post(id);
+      let post = await db.post.get_single_post(+id);
       res.status(200).send(post);
    }
 }
