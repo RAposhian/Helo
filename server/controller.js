@@ -54,7 +54,7 @@ module.exports = {
       if (userPosts === 'false' && searchInput === '') {
          let allPosts = await db.post.get_all_posts();
          console.log()
-         let filtered = allPosts.filter(e => (e.author_id !== id)? e : null)
+         let filtered = allPosts.filter(e => (e[0].author_id !== id)? e : null)
          return res.status(200).send(filtered)
       } 
       if (userPosts === 'false' && searchInput !== '') {
