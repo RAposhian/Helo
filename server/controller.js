@@ -76,5 +76,13 @@ module.exports = {
 
       let post = await db.post.get_single_post(+id);
       res.status(200).send(post);
+   },
+   addPost: (req, res) => {
+      const db = req.app.get('db');
+      const {title, image, content} = req.body;
+      const {id} = req.params;
+
+      db.post.add_post({title, img: image, content, author_id: id})
+      res.sendStatus(200);
    }
 }
