@@ -61,11 +61,11 @@ module.exports = {
          let postAll = await db.post.get_all_posts();
          console.log(postAll)
          let postsFiltered = postAll.filter((e, i) => e[i].title.includes(searchInput));
-         res.status(200).send(postsFiltered); 
+         return res.status(200).send(postsFiltered); 
       }
       if (userPosts === 'true' && searchInput === '') {
          let getAllPosts = await db.post.get_all_posts();
-         res.status(200).send(getAllPosts);
+         return res.status(200).send(getAllPosts);
       }
 
    },

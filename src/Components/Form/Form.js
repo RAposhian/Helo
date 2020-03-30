@@ -24,12 +24,15 @@ class Form extends Component {
             <img src={this.state.imageInput} alt='Post Image'/>
             <input 
                placeholder='Title' 
+               name='titleInput'
                onchange={e => this.handleInput(e)}></input>
             <input 
-               placeholder='Image URL' 
+               placeholder='Image URL'
+               name='imageInput' 
                onchange={e => this.handleInput(e)}></input>
             <input 
                placeholder='Post Content' 
+               name='contentInput'
                onchange={e => this.handleInput(e)}></input>
             <button>Create Post</button>
          </div>
