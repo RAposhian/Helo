@@ -9,8 +9,8 @@ class Auth extends Component {
 
       this.state = {
          username: '',
-         password: '',
-         registerView: false
+         password: ''
+         // registerView: false
       }
    }
 
@@ -36,11 +36,11 @@ class Auth extends Component {
       .catch(err => console.log(err))
    }
 
-   handleToggle = () => {
-      this.setState({
-         registerView: !this.state.registerView
-      })
-   }
+   // handleToggle = () => {
+   //    this.setState({
+   //       registerView: !this.state.registerView
+   //    })
+   // }
 
    handleChange = e => {
       this.setState({
@@ -49,7 +49,7 @@ class Auth extends Component {
    }
    
    render(){
-      // console.log(this.state.username)
+      // console.log(this.props.user)
       // console.log(this.state.password)
       return (
          <div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -18,13 +18,13 @@ class Dashboard extends Component {
       this.getPosts();
    }
 
+   
    handleSearch = () => {
-      const {people_id} = this.props.user;
       let ifTrue = false;
       if (this.state.userPosts === true){
          ifTrue = true;
       }
-      axios.get(`/api/posts/${people_id}/?userPosts=${ifTrue}`)
+      axios.get(`/api/posts/?userPosts=${ifTrue}&&searchInput=${this.state.searchInput}`)
       .then(res => {
          this.setState({
             posts: res.data,
@@ -34,21 +34,26 @@ class Dashboard extends Component {
       })
    }
 
+   handleUserPost = () => {
+      this.setState({userPosts: !this.state.userPosts})
+      // console.log(this.state.userPosts)
+   }
+
    getPosts = () => {
       const {searchInput, userPosts} = this.state;
-      const {people_id} = this.props.user;
+      
       
 
-      axios.get(`/api/posts/${people_id}/?userPosts=${userPosts}&searchInput=${searchInput}`)
+      axios.get(`/api/posts/?userPosts=${userPosts}&searchInput=${searchInput}`)
       .then(res => {
          this.setState({posts: res.data})
-         console.log(res.data)
+         // console.log(res.data)
       })
       .catch(err => console.log(err))
    }
    
    render(){
-      console.log(this.state.posts)
+      // console.log(this.state.posts)
       const mappedPosts = this.state.posts.map((e, i) => {
          return (
             <div key={i}>
@@ -62,17 +67,22 @@ class Dashboard extends Component {
          <div>
             <input 
                placeholder='Search' 
-               onChange={e => this.setState({ searchInput: e.target.value})} />
-            <button onClick={this.handleSearch}>Reset Search</button>
+               onChange={e => this.setState({ searchInput: e.target.value})}
+               value={this.state.searchInput} />
+            <button onClick={this.handleSearch}>Search</button>
+            {/* <button onClick={this.handleSearch}>Reset Search</button> */}
+            <span>My Posts</span>
             <input 
                type='checkbox' 
-               onClick={e => this.setState({userPosts: !this.state.userPosts})}/>
+               onClick={this.handleUserPost}
+               onChange={this.componentDidMount}/>
                {mappedPosts}
          </div>
       )
    }
 }
 
-const mapStateToProps = reduxState => reduxState;
+// const mapStateToProps = reduxState => reduxState;
 
-export default connect(mapStateToProps)(Dashboard);
+// export default connect(mapStateToProps)(Dashboard);
+export default Dashboard;
